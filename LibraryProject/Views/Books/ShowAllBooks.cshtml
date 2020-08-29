@@ -1,0 +1,92 @@
+﻿
+@model LibraryProject.ViewModel.SearchBooks
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-action="ShowAllBooks" method="get">
+    <label asp-for="sTitle">Title</label>
+    <input asp-for="sTitle" />
+    <label asp-for="sAuthor">Author</label>
+    <input asp-for="sAuthor" />
+    <label asp-for="sGenre">Genre</label>
+    <select asp-for="sGenre" asp-items="Model.Genre">
+        <option value=""></option>
+    </select>
+    <input type="submit" value="Filter" />
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Books[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Books[0].Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Books[0].PageNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Books[0].ShortContent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Books[0].PublicationYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Books[0].PublishingHouse)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Books[0].Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Books[0].BookImage)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Books)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PageNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShortContent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PublicationYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PublishingHouse)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookImage)
+                </td>
+                <td>
+                    <a asp-action="Show" asp-route-id="@item.Id">Show</a> |
+                    <a asp-action="AddNew" asp-route-id="@item.Id">Add New</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-action="NewEditBook" asp-route-id="@item.Id">Edit Book</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

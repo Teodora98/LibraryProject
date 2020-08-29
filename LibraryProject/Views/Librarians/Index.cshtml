@@ -1,0 +1,76 @@
+﻿@model IEnumerable<LibraryProject.Models.Librarian>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Librarian Profile Image</th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SSN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @if (item.LibrarianProfileImage != null)
+                {
+
+                    <img src="~/images/@item.LibrarianProfileImage"
+                         class="rounded-circle"
+                         height="40" width="40"
+                         asp-append-version="true" />
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SSN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BirthDate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-controller="Admin" asp-action="LibrarianProfile" asp-route-librarianId="@item.Id">Profile</a>
+            </td>
+            <td>
+                    
+                        <form asp-action="Delete" asp-controller="Admin" asp-route-id="@item.Id" method="post">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('User @(item.Id) will be delited!?');"> Delete </button>
+                        </form>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,68 @@
+﻿@model LibraryProject.ViewModel.FindCustomerAccount
+
+@{
+    ViewData["Title"] = "Сите корисници";
+}
+
+<h2>Сите корисници</h2>
+<br />
+<form asp-action="IndexCustomers" method="get">
+    <label asp-for="email">email</label>
+    <input asp-for="email" />
+    <label asp-for="sRole">Role</label>
+    <select asp-for="sRole" asp-items="Model.Role">
+        <option value=""></option>
+    </select>
+    <input type="submit" value="Filter" />
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.user[0].Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.user[0].PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.user[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.user[0].Role)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.user)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+            @{
+                if (item.CustomerId != null || item.LibrarianId != null)
+                {
+                    <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Корисникот @(item.Id) ќе биде избришан!?');"> Избриши </button>
+                    </form>
+                }
+            }
+                </td>
+
+        </tr>
+        }
+    </tbody>
+</table>
+
+

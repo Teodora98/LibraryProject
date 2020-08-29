@@ -1,0 +1,46 @@
+﻿
+@model AppUser
+@{
+    ViewData["Title"] = "Customer profile";
+}
+
+<h2>@(Model != null && Model.CustomerId != null ? "Промени" : "Нов") кориснички профил</h2>
+<h4>Наставник: @ViewData["FullName"]</h4>
+<hr />
+<div class="row">
+    <form asp-action="CustomerProfile" method="post">
+        <div class="col-md-12">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <input name="CustomerId" class="form-control" value="@(Model != null ? Model.CustomerId : @ViewData["CustomerId"])" hidden />
+            </div>
+            <div class="form-group">
+                <label for="Id">ID на корисник</label>
+                <input asp-for="Id" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label for="PasswordHash">Хеширана лозинка</label>
+                <input asp-for="PasswordHash" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label for="Email">Email адреса</label>
+                <input asp-for="Email" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="Password">Нова лозинка</label>
+                <input name="Password" class="form-control" />
+            </div>
+            <hr />
+            <div class="form-group">
+                <input type="submit" value="@(Model != null && Model.CustomerId != null ? "Зачувај" : "Внеси нов")" class="btn btn-default" />
+            </div>
+        </div>
+    </form>
+</div>
+<div>
+    <a asp-controller="Customers" asp-action="Index">Назад кон наставниците</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

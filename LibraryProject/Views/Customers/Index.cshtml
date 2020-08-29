@@ -1,0 +1,92 @@
+﻿@model LibraryProject.ViewModel.SearchCustomers
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-action="Index" method="get">
+    <label asp-for="sCardId">CardId</label>
+    <input asp-for="sCardId" />
+    <label asp-for="sSSN">SSN</label>
+    <input asp-for="sSSN" />
+    <label asp-for="sFullName">Full Name</label>
+    <input asp-for="sFullName" />
+    <input type="submit" value="Filter" />
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].CardId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].SSN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].MembershipDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].CreateUserBy)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Customer) {
+        <tr>
+            <td>
+                @if (item.CustomerProfileImage != null)
+                    {
+
+                        <img src="~/images/@item.CustomerProfileImage"
+                             class="rounded-circle"
+                             height="40" width="40"
+                             asp-append-version="true" />
+                    }
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CardId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SSN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MembershipDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateUserBy.FullName)
+            </td>
+            <td>
+                <a asp-action="ShowCustomerBooks" asp-route-id="@item.Id">Portfolio</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-controller="Admin" asp-action="CustomerProfile" asp-route-customerId="@item.Id">Профил</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

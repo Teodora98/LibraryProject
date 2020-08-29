@@ -1,0 +1,150 @@
+﻿@model LibraryProject.ViewModel.CustomerCheckOut
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Portfolio</h1>
+
+<dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.customer.CardId)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.customer.CardId)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.customer.FirstName)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.customer.FirstName)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.customer.LastName)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.customer.LastName)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.customer.SSN)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.customer.SSN)
+    </dd>
+</dl>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckOut[0].ChecksOut)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckOut[0].ChecksIn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckOut[0].Book.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckOut[0].Customer.FullName)
+            </th>
+            <th>you hold the book</th>
+        </tr>
+    </thead>
+    @foreach (var item in Model.CheckOut)
+    {
+        @if (item.ChecksIn == null)
+        {
+
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ChecksOut)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ChecksIn)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Book.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customer.FullName)
+                    </td>
+                    <td>
+                        @if ((DateTime.Now - item.ChecksOut).TotalDays > 15)
+                        {
+                            <p>you have to pay</p>
+                        }
+                        else
+                        {
+                            <p>  @((int)(@DateTime.Now - @item.ChecksOut).TotalDays) days</p>
+                        }
+                    </td>
+                    <td>
+                        <a asp-controller="CheckOuts" asp-action="Edit" asp-route-id="@item.Id">Check In</a> |
+                        <a asp-controller="CheckOuts" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-controller="CheckOuts" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        }
+    }
+</table>
+<h4> Check Out History</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckOut[0].ChecksOut)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckOut[0].ChecksIn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckOut[0].Book)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckOut[0].Customer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckOut[0].Librarian)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var item in Model.CheckOut)
+    {
+        @if (item.ChecksIn != null)
+        {
+
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ChecksOut)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ChecksIn)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Book.Author)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customer.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Librarian.FirstName)
+                    </td>
+                    <td>
+                        <a asp-controller="CheckOuts" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    </td>
+                </tr>
+            </tbody>
+        }
+    }
+</table>
+    @if (Model.NoMoreBooks == 0)
+    {
+        <form asp-action="DeleteCustomer" asp-controller="Admin" asp-route-id="@Model.customer.Id" method="post">
+            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Корисникот @(Model.customer.Id) ќе биде избришан!?');"> Избриши </button>
+        </form>
+    }
